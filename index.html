@@ -70,19 +70,21 @@
       /* Floored, not calc()'d: if env(safe-area-inset-top) reads 0 for the
          first layout on a cold launch and only resolves a moment later,
          calc(14px + env(...)) is wrong by the device's whole notch height
-         in the meantime — a big, obvious jump once it corrects. max() with
-         a generous floor means the "wrong" state is already close to the
-         right one, so the correction (if any) is too small to see. */
+         in the meantime — a big, obvious jump once it corrects. The floor
+         has to be the TOTAL settled padding (base + inset), not the inset
+         alone — 14px base + 63px inset (this project's own measured 16
+         Pro figure) = 77px, so the "wrong" state already equals the right
+         one instead of merely being closer to it. */
       .edge-top {
         background: var(--top);
         color: var(--top-ink);
-        padding: max(63px, calc(14px + env(safe-area-inset-top))) 16px 14px;
+        padding: max(77px, calc(14px + env(safe-area-inset-top))) 16px 14px;
       }
 
       .edge-bottom {
         background: var(--bottom);
         color: var(--bottom-ink);
-        padding: 14px 16px max(49px, calc(14px + env(safe-area-inset-bottom)));
+        padding: 14px 16px max(63px, calc(14px + env(safe-area-inset-bottom)));
         gap: 10px;
       }
 
